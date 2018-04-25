@@ -2,7 +2,7 @@ require 'sinatra'
 require 'zlib'
 require 'newrelic_rpm'
 
-@writer = Sinatra::Base.production? ? 'https://nanotwitr.herokuapp.com' : 'http://localhost:9292'
+$writer = Sinatra::Base.production? ? 'https://nanotwitr.herokuapp.com' : 'http://localhost:9292'
 
 get '/loaderio-6c73c6a2eea424fb0a1185fc2cc23844/' do
   'loaderio-6c73c6a2eea424fb0a1185fc2cc23844'
@@ -58,9 +58,11 @@ helpers do
   def get_cache(key, req, id)
     cache = Time.now.to_i % 2 == 0 ? $redis.get(key) : $redis2.get(key)
     if cache.nil?
-      url = id ? "#{@writer}#{req.path_info}?session_id=#{id}" : "#{@writer}#{req.path_info}"
-      redirect url
+      puts "No cache for #{key}, redirecting"
+      url = id ? "#{$writer}#{req.path_info}?session_id=#{id}" : "#{$writer}#{req.path_info}"
+      redirect(url)
     else
+      puts "Found #{key} from cache"
       Zlib.inflate(cache)
     end
   end
