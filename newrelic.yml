@@ -1,0 +1,27 @@
+common: &default_settings
+  license_key: <%= ENV['NEW_RELIC_LICENSE_KEY'] %>
+  app_name: nT-reader
+
+  # To disable the agent regardless of other settings, uncomment the following:
+  # agent_enabled: false
+
+  log_level: info
+
+
+# Environment-specific settings are in this section.
+# RAILS_ENV or RACK_ENV (as appropriate) is used to determine the environment.
+# If your application has other named environments, configure them here.
+development:
+  <<: *default_settings
+  app_name: nanoTwitter (Development)
+
+test:
+  <<: *default_settings
+  monitor_mode: false
+
+staging:
+  <<: *default_settings
+  app_name: nanoTwitter (Staging)
+
+production:
+  <<: *default_settings

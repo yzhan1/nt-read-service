@@ -1,9 +1,6 @@
 require 'sinatra'
 require 'zlib'
-# require 'redis'
-
-# $redis = Redis.new(url: ENV['REDISCLOUD_URL'] || 'redis://localhost:6379')
-# $redis2 = Redis.new(url: ENV['REDISCLOUD_URL_2'] || 'redis://localhost:6379')
+require 'newrelic_rpm'
 
 $writer = Sinatra::Base.production? ? 'https://nanotwitr.herokuapp.com' : 'http://localhost:9292'
 
