@@ -41,6 +41,7 @@ end
 
 get '/users/:id' do
   user_id = params[:id]
+  user_id = 1001 if user_id == 'testuser'
   session_id = params[:session_id]
   key = session_id ? "#{user_id}_profile_page_li" : "#{user_id}_profile_page_lo"
   get_cache(key, request, session_id)
