@@ -39,7 +39,7 @@ get '/' do
   get_cache(key, request, id)
 end
 
-get '/users/:id' do
+get '/user/:id' do
   user_id = params[:id]
   user_id = 1001 if user_id == 'testuser'
   session_id = params[:session_id]
