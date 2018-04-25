@@ -2,7 +2,7 @@ require 'sinatra'
 require 'zlib'
 require 'newrelic_rpm'
 
-$writer = Sinatra::Base.production? ? 'https://nanotwitr.herokuapp.com' : 'http://localhost:9292'
+@writer = Sinatra::Base.production? ? 'https://nanotwitr.herokuapp.com' : 'http://localhost:9292'
 
 get '/loaderio-6c73c6a2eea424fb0a1185fc2cc23844/' do
   'loaderio-6c73c6a2eea424fb0a1185fc2cc23844'
@@ -41,24 +41,26 @@ end
 
 get '/users/:id' do
   user_id = params[:id]
-  key = user_id ? "#{user_id}_profile_page_li" : "#{user_id}_profile_page_lo"
-  get_cache(key, request, params[:session_id])
+  session_id = params[:session_id]
+  key = session_id ? "#{user_id}_profile_page_li" : "#{user_id}_profile_page_lo"
+  get_cache(key, request, session_id)
 end
 
 get '/tweets/:id' do
   tweet_id = params[:id]
-  key = tweet_id ? "#{tweet_id}_tweetpage_li" : "#{tweet_id}_tweetpage_lo"
-  get_cache(key, request, params[:session_id])
+  session_id = params[:session_id]
+  key = session_id ? "#{tweet_id}_tweetpage_li" : "#{tweet_id}_tweetpage_lo"
+  get_cache(key, request, session_id)
 end
 
-def get_cache(key, req, id)
-  cache = Time.now.to_i % 2 == 0 ? $redis.get(key) : $redis2.get(key)
-  if cache.nil?
-    puts 'redirecting'
-    
-    url = id ? "#{$writer}#{req.path_info}?session_id=#{id}" : "#{$writer}#{req.path_info}"
-    redirect url
-  else
-    Zlib.inflate(cache)
+helpers do
+  def get_cache(key, req, id)
+    cache = Time.now.to_i % 2 == 0 ? $redis.get(key) : $redis2.get(key)
+    if cache.nil?
+      url = id ? "#{@writer}#{req.path_info}?session_id=#{id}" : "#{@writer}#{req.path_info}"
+      redirect url
+    else
+      Zlib.inflate(cache)
+    end
   end
 end
