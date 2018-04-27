@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     backports (3.11.3)
+    minitest (5.11.3)
     multi_json (1.13.1)
     mustermann (1.0.2)
     newrelic_rpm (5.0.0.342)
@@ -33,6 +34,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  minitest
   newrelic_rpm
   puma
   rack-ssl

@@ -7,5 +7,6 @@ gem 'rack-test'
 gem 'rack-ssl'
 gem 'redis'
 gem 'puma'
+gem 'minitest'
 
 gem 'newrelic_rpm', :group => :production
