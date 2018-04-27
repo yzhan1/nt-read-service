@@ -56,7 +56,7 @@ end
 
 helpers do
   def get_cache(key, req, id)
-    cache = get_cache(key)
+    cache = fetch_from_redis(key)
     if cache.nil?
       puts "No cache for #{key}, redirecting"
       redirect(get_url(id))
@@ -66,7 +66,7 @@ helpers do
     end
   end
 
-  def get_cache(key)
+  def fetch_from_redis(key)
     Time.now.to_i % 2 == 0 ? $redis.get(key) : $redis2.get(key)
   end
 
