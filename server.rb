@@ -56,14 +56,21 @@ end
 
 helpers do
   def get_cache(key, req, id)
-    cache = Time.now.to_i % 2 == 0 ? $redis.get(key) : $redis2.get(key)
+    cache = get_cache(key)
     if cache.nil?
       puts "No cache for #{key}, redirecting"
-      url = id ? "#{$writer}#{req.path_info}?session_id=#{id}" : "#{$writer}#{req.path_info}"
-      redirect(url)
+      redirect(get_url(id))
     else
       puts "Found #{key} from cache"
       Zlib.inflate(cache)
     end
+  end
+
+  def get_cache(key)
+    Time.now.to_i % 2 == 0 ? $redis.get(key) : $redis2.get(key)
+  end
+
+  def get_url(id)
+    id ? "#{$writer}#{req.path_info}?session_id=#{id}" : "#{$writer}#{req.path_info}"
   end
 end
