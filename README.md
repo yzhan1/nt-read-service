@@ -16,7 +16,7 @@ Before running anything, do `bundle`
 
 To run the service:
 + First run `brew services start redis` or any equivalent command to start redis
-+ Then run `bundle exec puma`. Notice that you might need to start the load balancer app and write service too
++ Then run `bundle exec puma` and visit `localhost:3001`. Notice that you might need to start the load balancer app and write service to make the app fully functional
 
 To run tests:
 + `bundle exec rake test`
