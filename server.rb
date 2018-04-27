@@ -47,6 +47,15 @@ get '/user/:id' do
   get_cache(key, request, session_id)
 end
 
+# the following two routes are currently not cached
+get '/users/:id/followers' do
+  redirect(get_url(params[:session_id], request))
+end
+
+get '/users/:id/following' do
+  redirect(get_url(params[:session_id], request))
+end
+
 get '/tweets/:id' do
   tweet_id = params[:id]
   session_id = params[:session_id]
